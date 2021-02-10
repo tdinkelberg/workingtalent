@@ -1,0 +1,61 @@
+<html lang="en">
+<head>
+  <title>Opdracht 4</title>
+    <script>
+    var x = 0;
+    var geschiedenis = [];
+    var outputtekst = "";
+        function knop(letter) {
+            //tekst clearen
+            document.getElementById("ingedrukt").innerHTML = "";
+            outputtekst = "";
+
+            // geschiedenis bijhouden
+            if (letter == 1){
+                geschiedenis[x]=1;
+                x = x+1;
+            }
+            if (letter == 2){
+                geschiedenis[x]=2;
+                x = x+1;
+            }
+            if (letter == 3){
+                geschiedenis[x]=3;
+                x = x+1;
+            }
+            if (letter == 4){
+                geschiedenis[x]=4;
+                x = x+1;
+            }
+
+            // tekst aanmaken aan de hand van geschiedenis
+            for (i=0; i < geschiedenis.length ; i++){
+                if (geschiedenis[i]==1){
+                    outputtekst = outputtekst + "U heeft op knop A gedrukt<br>"
+                }
+                if (geschiedenis[i]==2){
+                    outputtekst = outputtekst + "U heeft op knop B gedrukt<br>"
+                }
+                if (geschiedenis[i]==3){
+                    outputtekst = outputtekst + "U heeft op knop C gedrukt<br>"
+                }
+                if (geschiedenis[i]==4){
+                    outputtekst = outputtekst + "U heeft op knop D gedrukt<br>"
+                }
+            }
+
+
+            // tekst outputten
+            document.getElementById("ingedrukt").innerHTML = outputtekst;
+        }
+    </script>
+</head>
+<body>
+    <input type="button" value="A" onclick="knop(1)">
+    <input type="button" value="B" onclick="knop(2)">
+    <input type="button" value="C" onclick="knop(3)">
+    <input type="button" value="D" onclick="knop(4)">
+    <br>
+    <div id="ingedrukt"></div>
+</body>
+</html>

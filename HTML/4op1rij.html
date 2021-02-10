@@ -1,0 +1,72 @@
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .square_s {
+        height: 50px;
+        width: 50px;
+        border-style: solid;
+        border-color: red;
+        }
+        .square_m {
+        height: 50px;
+        width: 50px;
+        border-style: solid;
+        border-color: green;
+        }
+    </style>
+  <title>Vier op een rij</title>
+    <script>
+        function createtbl(h,w){
+            // creating body ref, table and tablebody
+            var body = document.getElementsByTagName('body')[0];
+            var tbl = document.createElement('table');;
+            var tblBody = document.createElement("tbody");
+
+            // looping for specified width and height
+            for (i = 0 ; i < h; i++){
+                // to create each row
+                var row  = document.createElement('tr'); 
+                for (j = 0 ; j < w; j++){
+                    // to create each cell
+                    var cell = document.createElement('td'); 
+
+                    // creating square in each cell
+                    var sq = document.createElement('div');
+                    sq.id = i.toString()+j.toString();
+                    console.log(sq.id);                   
+                    sq.addEventListener("mouseover", hover(j));
+                    sq.className = square_s;
+
+
+                    //appending square to cell
+                    cell.appendChild(sq.square_s);
+
+                    //appending cel to row
+                    row.appendChild(cell);
+                }
+                tblBody.appendChild(row); //row appended to table body
+            }
+            tbl.appendChild(tblBody);// tblbody appended to tbl
+            // put <table> in the <body>
+            body.appendChild(tbl);
+        }
+
+        function hover(column){
+            for (i = 0; i < 6; i++){
+                var idcode = i.toString()+column.toString();
+                console.log(idcode);
+                document.getElementById(idcode).className = "square_m";             
+            }   
+        }
+
+    </script>
+</head>
+<body>
+<script>
+createtbl(6,7);
+
+
+</script>    
+</body>
+</html>

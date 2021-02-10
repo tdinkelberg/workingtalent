@@ -1,0 +1,42 @@
+<html lang="en">
+<head>
+  <title>Opdracht 3</title>
+    <script>
+        function getSum(total, num) {
+            return total + num;
+        }
+        function check() {
+            var woord = document.getElementById("invoer").value;
+            var letter = document.getElementById("zoekletter").value;
+            var aanwezig = woord.search(letter)
+            if (aanwezig == -1 ) {
+            }
+            else {
+            var bijhouden = new Array(woord.length);                
+            for(var x=0; x < woord.length ; x=x+1){
+                var lettercheck = woord.charAt(x);
+                if (lettercheck == letter) {
+                    bijhouden[x]=1;
+                }
+                else {
+                    bijhouden[x]=0  ;
+                }
+            }
+            console.log(bijhouden);
+            var aantal = bijhouden.reduce(getSum, 0);
+            if (aantal == 1) {
+                alert("Er zit "+aantal+" "+letter+" in het woord!")
+            }
+            else {
+                alert("Er zitten "+aantal+" "+letter+"'s in het woord!")
+            }
+        }
+        }
+    </script>
+</head>
+<body>
+  <input type="text" value="woord hier invoeren" id="invoer"><br>
+  <input type="text" value="letter hier invoeren" id="zoekletter"><br>
+  <input type="button" value="Zit deze letter erin?" onclick="check()">
+</body>
+</html>

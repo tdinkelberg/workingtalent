@@ -1,0 +1,22 @@
+<html lang="en">
+<head>
+  <title>Opdracht 1</title>
+    <script>
+        function verzendbericht() {
+            var invoercheck = document.getElementById("invoer").value
+            if (invoercheck == "hallo" ) {
+                alert("Welkom")
+            }
+            if (invoercheck == "doei" ) {
+                alert("Tot de volgende keer")
+            }
+            else {
+            }
+        }
+    </script>
+</head>
+<body>
+  <input type="text" id="invoer">
+  <input type="button" value="Verzend bericht" onclick="verzendbericht()">
+</body>
+</html>

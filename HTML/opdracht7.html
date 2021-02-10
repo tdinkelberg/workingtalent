@@ -1,0 +1,103 @@
+<html lang="en">
+<head>
+  <title>Opdracht 7</title>
+    <script>
+        // prealocate variables A
+        var xA = 0;
+        var yA = 0;
+        var seasonpathA = "afbeeldingen/lente.jpg";
+        // prealocate variables B
+        var xB = 0;
+        var yB = 0;
+        var seasonpathB = "afbeeldingen/lente.jpg";
+        // function button A
+        function KNA() {
+            // add one to history A
+            xA = xA + 1;
+            if (xA == 0){
+                seasonpathA = "afbeeldingen/lente.jpg";
+            }
+            if (xA == 1){
+                seasonpathA = "afbeeldingen/zomer.jpg";
+            }
+            if (xA == 2){
+                seasonpathA = "afbeeldingen/winter.jpg";
+            }
+            if (xA == 3){
+                seasonpathA = "afbeeldingen/herfst.jpg";
+            }                        
+            if (xA == 4){
+                xA = 0;
+                yA = yA + 1;
+                seasonpathA = "afbeeldingen/lente.jpg";
+            }
+            // track year A
+            if (yA == 0){
+            }
+            if (yA == 1){
+                document.getElementById('jaarA').innerHTML="Er is "+yA+" jaar voorbij in afbeelding A";
+            }
+            if (yA > 1){
+                document.getElementById('jaarA').innerHTML="Er zijn "+yA+" jaren voorbij in afbeelding A";
+            }
+            
+            // display image A
+            document.getElementById('seasonA').src=seasonpathA;
+        }
+        // function button B
+        function KNB() {
+            // add one to history B
+            xB = xB + 1;
+            if (xB == 0){
+                seasonpathB = "afbeeldingen/lente.jpg";
+            }
+            if (xB == 1){
+                seasonpathB = "afbeeldingen/zomer.jpg";
+            }
+            if (xB == 2){
+                seasonpathB = "afbeeldingen/winter.jpg";
+            }
+            if (xB == 3){
+                seasonpathB = "afbeeldingen/herfst.jpg";
+            }                        
+            if (xB == 4){
+                xB = 0;
+                yB = yB + 1;
+                seasonpathB = "afbeeldingen/lente.jpg";
+            }
+            // track year B
+            if (yB == 0){
+            }
+            if (yB == 1){
+                document.getElementById('jaarB').innerHTML="Er is "+yB+" jaar voorbij in afbeelding B";
+            }
+            if (yB > 1){
+                document.getElementById('jaarB').innerHTML="Er zijn "+yB+" jaren voorbij in afbeelding B";
+            }
+            
+            // display image B
+            document.getElementById('seasonB').src=seasonpathB;
+        }
+        // function button C
+        function KNC(){
+            if (seasonpathA == seasonpathB){
+                console.log("HETZELFDE")
+            }
+            else {
+                console.log("NIET HETZELFDE")    
+            }
+        }
+    </script>
+</head>
+<body>
+    <input type="button" value="volgende seizoen afbeelding A" onclick="KNA()">
+    <input type="button" value="volgende seizoen afbeelding B" onclick="KNB()">
+    <input type="button" value="vergelijk seizoenen" onclick="KNC()">
+    <br>
+    <img id="seasonA" src="afbeeldingen/lente.jpg" style="width:500px">
+    <img id="seasonB" src="afbeeldingen/lente.jpg" style="width:500px">
+    <br>
+    <div id="jaarA">Afbeelding A zit in het eerste jaar</div>
+    <div id="jaarB">Afbeelding B zit in het eerste jaar</div>
+</body>
+</html>

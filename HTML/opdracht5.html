@@ -1,0 +1,110 @@
+<html lang="en">
+<head>
+  <title>Opdracht 5</title>
+    <script>
+    // variabelen pre alocaten   
+    var x = 0;
+    var geschiedenis = [];
+    var outputtekst = "";
+
+    //sum function
+    function getSum(total, num) {
+            return total + num;
+    }
+
+    // filter functions
+    function filt1(value, index, array) {
+        return value == 1;
+    }
+    function filt2(value, index, array) {
+        return value == 2;
+    }
+    function filt3(value, index, array) {
+        return value == 3;
+    }
+    function filt4(value, index, array) {
+        return value == 4;
+    }
+
+        function knop(letter) {
+            //tekst clearen
+            document.getElementById("ingedrukt").innerHTML = "";
+            outputtekst = "";
+
+            // Check of er eerder op deze knop is gedrukt
+            if (letter == 1){
+                var gesch1 = geschiedenis.filter(filt1);
+                if (gesch1.length > 0){
+                    alert("U heeft al "+gesch1.length+" keer op A geklikt");
+                }
+            }
+            if (letter == 2){
+                var gesch2 = geschiedenis.filter(filt2);
+                if (gesch2.length > 0){
+                    alert("U heeft al "+gesch2.length+" keer op B geklikt");
+                }
+            }
+            if (letter == 3){
+                var gesch3 = geschiedenis.filter(filt3);
+                if (gesch3.length > 0){
+                    alert("U heeft al "+gesch3.length+" keer op C geklikt");
+                }
+            }
+            if (letter == 4){
+                var gesch4 = geschiedenis.filter(filt4);
+                if (gesch4.length > 0){
+                    alert("U heeft al "+gesch4.length+" keer op D geklikt");
+                }
+            }
+            console.log(geschiedenis);
+            console.log(gesch1);   
+
+            // geschiedenis bijhouden
+            if (letter == 1){
+                geschiedenis[x]=1;
+                x = x+1;
+            }
+            if (letter == 2){
+                geschiedenis[x]=2;
+                x = x+1;
+            }
+            if (letter == 3){
+                geschiedenis[x]=3;
+                x = x+1;
+            }
+            if (letter == 4){
+                geschiedenis[x]=4;
+                x = x+1;
+            } 
+
+
+            // tekst aanmaken aan de hand van geschiedenis
+            for (i=0; i < geschiedenis.length ; i++){
+                if (geschiedenis[i]==1){
+                    outputtekst = outputtekst + "U heeft op knop A gedrukt<br>"
+                }
+                if (geschiedenis[i]==2){
+                    outputtekst = outputtekst + "U heeft op knop B gedrukt<br>"
+                }
+                if (geschiedenis[i]==3){
+                    outputtekst = outputtekst + "U heeft op knop C gedrukt<br>"
+                }
+                if (geschiedenis[i]==4){
+                    outputtekst = outputtekst + "U heeft op knop D gedrukt<br>"
+                }
+            }
+
+            // tekst outputten
+            document.getElementById("ingedrukt").innerHTML = outputtekst;
+        }
+    </script>
+</head>
+<body>
+    <input type="button" value="A" onclick="knop(1)">
+    <input type="button" value="B" onclick="knop(2)">
+    <input type="button" value="C" onclick="knop(3)">
+    <input type="button" value="D" onclick="knop(4)">
+    <br>
+    <div id="ingedrukt"></div>
+</body>
+</html>

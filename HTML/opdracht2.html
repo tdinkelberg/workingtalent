@@ -1,0 +1,21 @@
+<html lang="en">
+<head>
+  <title>Opdracht 2</title>
+    <script>
+        function checke() {
+            var woord = document.getElementById("invoer").value
+            var locatie = woord.search("e")
+            if (locatie == -1 ) {
+            }
+            else {
+                alert("Er zit een e in het woord!")
+                console.log(locatie)
+            }
+        }
+    </script>
+</head>
+<body>
+  <input type="text" id="invoer">
+  <input type="button" value="Zit er een e in?" onclick="checke()">
+</body>
+</html>

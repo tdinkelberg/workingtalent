@@ -1,0 +1,384 @@
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .square_s {
+        height: 50px;
+        width: 50px;
+        border-style: solid;
+        border-color: blue;
+        }
+        .square_h {
+        height: 50px;
+        width: 50px;
+        border-style: solid;
+        border-color: green;
+        }
+        .piece1 {
+        height: 50px;
+        width: 50px;
+        border-style: solid;
+        border-color: blue;
+        }
+        .piece1:before {
+        display: block;
+        position: absolute;
+        content: '';
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: red;
+        }
+        .piece_h1 {
+        height: 50px;
+        width: 50px;
+        border-style: solid;
+        border-color: green;
+        }
+        .piece_h1:before {
+        display: block;
+        position: absolute;
+        content: '';
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: red;
+        }
+        .piece2 {
+        height: 50px;
+        width: 50px;
+        border-style: solid;
+        border-color: blue;
+        }
+        .piece2:before {
+        display: block;
+        position: absolute;
+        content: '';
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: yellow;
+        }
+        .piece_h2 {
+        height: 50px;
+        width: 50px;
+        border-style: solid;
+        border-color: green;
+        }
+        .piece_h2:before {
+        display: block;
+        position: absolute;
+        content: '';
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: yellow;
+        }              
+    </style>
+    <title>Vier op een rij</title>
+    <script>
+        // pre allocate memory variables
+        var moves = 1;
+        var start = 0;
+        // pre allocate memory for styles
+        var kleurp1 = [];
+        var kleurp2 = [];
+        var np1 = [];
+        var np2 = [];
+        var stylep1;
+        var stylep1_h;
+        var stylep2;
+        var stylep2_h;
+        // pre-allocate board state matrix for each player
+        b_w = 7; //board width  
+        b_h = 6; //board height
+        // pre-make an odd and even array
+        var max_moves =b_w*b_h/2;
+        var odd = [];
+        var even = [];
+        for (i = 0; i < max_moves ; i++){
+            odd[i] = 1 + 2*i;
+            even[i] = 2 + 2*i;
+        } 
+        // tracking height of the stones in each column
+        var c_height = new Array(b_w);
+        c_height = c_height.fill(0);
+        // filling 0 matrix the size of the board
+        var board_p1 = [];
+        for(var i = 0; i < b_w; i++) {
+            board_p1 [i] = [];
+            for(var j = 0 ; j < b_h ; j++) {
+                board_p1[i][j] = 0;
+             }
+        }
+        var board_p2 = [];
+        for(var i = 0; i < b_w; i++) {
+            board_p2 [i] = [];
+            for(var j = 0 ; j < b_h ; j++) {
+                board_p2[i][j] = 0;
+             }
+        }
+
+        // PRE-GAME FUNCTIONS
+        function startspel(){
+            // read input names
+            np1=document.getElementById("p1").value;
+            np2=document.getElementById("p2").value;
+            // read input colors
+            if (document.getElementById("rood1").checked){
+                kleurp1 = "Rood";
+                kleurp2 = "Geel";
+                stylep1="piece1";
+                stylep1_h="piece_h1";
+                stylep2="piece2";
+                stylep2_h="piece_h2";
+            }
+            else{
+                kleurp1 = "Geel";
+                kleurp2 = "Rood";
+                stylep1="piece2";
+                stylep1_h="piece_h2";
+                stylep2="piece1";
+                stylep2_h="piece_h1";
+            }
+
+            // fill interface values
+            document.getElementById("beurt").innerText="Aan zet: "+np1;
+            
+            // fill game interface
+            document.getElementById("descp1").innerHTML=np1+" speelt als "+kleurp1;
+            document.getElementById("descp2").innerHTML=np2+" speelt als "+kleurp2;
+
+            start = 1;
+            //show game interface
+            var ig = document.getElementsByClassName("in-game");
+            for (i = 0 ; i < ig.length ; i++){
+                ig[i].style.display="block";
+            };
+            for (i = 0; i < b_w; i++){
+                for(j = 0; j < b_h; j++){
+                    idcode = j.toString()+i.toString()
+            document.getElementById(idcode).style.display="block" 
+    }
+}
+            //hide pre-game GUI
+            var intros = document.getElementsByClassName("intro");
+            for (i = 0 ; i < intros.length ; i++){
+                intros[i].style.display="none";
+            }
+        }
+
+        // IN GAME FUNCTIONS
+        // change color if hover functions
+        function hover(column){
+            if (start == 0){
+                //doe niks voor spel is gestart
+            }
+            else {
+                for (i = 0; i < b_w; i++){
+                    for(j = 0; j < b_h; j++){
+                        var idcode = j.toString()+i.toString();
+                        var idcodehover = j.toString()+column.toString();
+                        if (board_p1[i][j] == 0){
+                            document.getElementById(idcode).className = "square_s";
+                            if (idcode == idcodehover){
+                                document.getElementById(idcode).className = "square_h";
+                            }
+                        }
+                        if (board_p1[i][j] == 1){
+                            document.getElementById(idcode).className = stylep1;   
+                            if (idcode == idcodehover){
+                                document.getElementById(idcode).className = stylep1_h;
+                            }  
+                        }
+                        if (board_p2[i][j] == 1){
+                            document.getElementById(idcode).className = stylep2;   
+                            if (idcode == idcodehover){
+                                document.getElementById(idcode).className = stylep2_h;   
+                            }  
+                        }
+                    }
+                }    
+            }
+        }
+        function roodradio(){
+            document.getElementById("rood1").checked = true;
+            document.getElementById("rood2").checked = false;
+            document.getElementById("geel1").checked = false;
+            document.getElementById("geel2").checked = true;
+        }
+        function geelradio(){
+            document.getElementById("rood1").checked = false;
+            document.getElementById("rood2").checked = true;
+            document.getElementById("geel1").checked = true;
+            document.getElementById("geel2").checked = false;
+        }
+
+
+        function hoveroff(column){
+            if (start == 0){
+                //doe niks voor spel is gestart
+            }
+            else {
+                for (i = 0; i < b_w; i++){
+                    for(j = 0; j < b_h; j++){
+                        var idcode = j.toString()+i.toString();
+                        var idcodehover = j.toString()+column.toString();
+                        if (board_p1[i][j] == 0){
+                            document.getElementById(idcode).className = "square_s";
+                            }
+                        if (board_p1[i][j] == 1){
+                            document.getElementById(idcode).className = stylep1;   
+                            }  
+                        if (board_p2[i][j] == 1){
+                            document.getElementById(idcode).className = stylep2;     
+                        }  
+                    }
+                }
+            }
+        }
+        // masking a move function
+        function move(column){
+            if (start == 0){
+                //doe niks voor spel is gestart
+            }
+            else {
+                
+                m_h = c_height[column]; //determining what row the move will affect
+                m_w = column; // determining what column the move will affect
+                if (odd.includes(moves)){
+                    board_p1[m_w][m_h] = 1; //adding placement to boardstate
+                    document.getElementById("beurt").innerText="Aan zet:"+np2;
+                }
+                if (even.includes(moves)){
+                    board_p2[m_w][m_h] = 1; //adding placement to boardstate
+                    document.getElementById("beurt").innerText="Aan zet:"+np1;
+                }
+                //adding move/height to memory
+                c_height[column]=c_height[column]+1;
+                moves = moves + 1;
+
+                for (i = 0; i < b_w; i++){
+                    for(j = 0; j < b_h; j++){
+                        var idcode = j.toString()+i.toString();
+                        var idcodehover = j.toString()+column.toString();
+                        if (board_p1[i][j] == 0){
+                            document.getElementById(idcode).className = "square_s";
+                            if (idcode == idcodehover){
+                                document.getElementById(idcode).className = "square_h";
+                            }
+                        }
+                        if (board_p1[i][j] == 1){
+                            document.getElementById(idcode).className = stylep1;   
+                            if (idcode == idcodehover){
+                                document.getElementById(idcode).className = stylep1_h;
+                            }  
+                        }
+                        if (board_p2[i][j] == 1){
+                            document.getElementById(idcode).className = stylep2;   
+                            if (idcode == idcodehover){
+                                document.getElementById(idcode).className = stylep2_h;   
+                            }  
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+</head>
+<body>
+<table>
+    <tr>
+        <td><div class= "square_s" id=50 onmouseover="hover(0)" onmouseout="hoveroff(0)" onclick="move(0)"></div></td>
+        <td><div class= "square_s" id=51 onmouseover="hover(1)" onmouseout="hoveroff(1)" onclick="move(1)"></div></td>
+        <td><div class= "square_s" id=52 onmouseover="hover(2)" onmouseout="hoveroff(2)" onclick="move(2)"></div></td>
+        <td><div class= "square_s" id=53 onmouseover="hover(3)" onmouseout="hoveroff(3)" onclick="move(3)"></div></td>
+        <td><div class= "square_s" id=54 onmouseover="hover(4)" onmouseout="hoveroff(4)" onclick="move(4)"></div></td>
+        <td><div class= "square_s" id=55 onmouseover="hover(5)" onmouseout="hoveroff(5)" onclick="move(5)"></div></td>
+        <td><div class= "square_s" id=56 onmouseover="hover(6)" onmouseout="hoveroff(6)" onclick="move(6)"></div></td>
+    </tr>
+    <tr>
+        <td><div class= "square_s" id=40 onmouseover="hover(0)" onmouseout="hoveroff(0)" onclick="move(0)"></div></td>
+        <td><div class= "square_s" id=41 onmouseover="hover(1)" onmouseout="hoveroff(1)" onclick="move(1)"></div></td>
+        <td><div class= "square_s" id=42 onmouseover="hover(2)" onmouseout="hoveroff(2)" onclick="move(2)"></div></td>
+        <td><div class= "square_s" id=43 onmouseover="hover(3)" onmouseout="hoveroff(3)" onclick="move(3)"></div></td>
+        <td><div class= "square_s" id=44 onmouseover="hover(4)" onmouseout="hoveroff(4)" onclick="move(4)"></div></td>
+        <td><div class= "square_s" id=45 onmouseover="hover(5)" onmouseout="hoveroff(5)" onclick="move(5)"></div></td>
+        <td><div class= "square_s" id=46 onmouseover="hover(6)" onmouseout="hoveroff(6)" onclick="move(6)"></div></td>
+    </tr>
+    <tr>
+        <td><div class= "square_s" id=30 onmouseover="hover(0)" onmouseout="hoveroff(0)" onclick="move(0)"></div></td>
+        <td><div class= "square_s" id=31 onmouseover="hover(1)" onmouseout="hoveroff(1)" onclick="move(1)"></div></td>
+        <td><div class= "square_s" id=32 onmouseover="hover(2)" onmouseout="hoveroff(2)" onclick="move(2)"></div></td>
+        <td><div class= "square_s" id=33 onmouseover="hover(3)" onmouseout="hoveroff(3)" onclick="move(3)"></div></td>
+        <td><div class= "square_s" id=34 onmouseover="hover(4)" onmouseout="hoveroff(4)" onclick="move(4)"></div></td>
+        <td><div class= "square_s" id=35 onmouseover="hover(5)" onmouseout="hoveroff(5)" onclick="move(5)"></div></td>
+        <td><div class= "square_s" id=36 onmouseover="hover(6)" onmouseout="hoveroff(6)" onclick="move(6)"></div></td>
+    </tr>
+    <tr>
+        <td><div class= "square_s" id=20 onmouseover="hover(0)" onmouseout="hoveroff(0)" onclick="move(0)"></div></td>
+        <td><div class= "square_s" id=21 onmouseover="hover(1)" onmouseout="hoveroff(1)" onclick="move(1)"></div></td>
+        <td><div class= "square_s" id=22 onmouseover="hover(2)" onmouseout="hoveroff(2)" onclick="move(2)"></div></td>
+        <td><div class= "square_s" id=23 onmouseover="hover(3)" onmouseout="hoveroff(3)" onclick="move(3)"></div></td>
+        <td><div class= "square_s" id=24 onmouseover="hover(4)" onmouseout="hoveroff(4)" onclick="move(4)"></div></td>
+        <td><div class= "square_s" id=25 onmouseover="hover(5)" onmouseout="hoveroff(5)" onclick="move(5)"></div></td>
+        <td><div class= "square_s" id=26 onmouseover="hover(6)" onmouseout="hoveroff(6)" onclick="move(6)"></div></td>
+    </tr>
+    <tr>
+        <td><div class= "square_s" id=10 onmouseover="hover(0)" onmouseout="hoveroff(0)" onclick="move(0)"></div></td>
+        <td><div class= "square_s" id=11 onmouseover="hover(1)" onmouseout="hoveroff(1)" onclick="move(1)"></div></td>
+        <td><div class= "square_s" id=12 onmouseover="hover(2)" onmouseout="hoveroff(2)" onclick="move(2)"></div></td>
+        <td><div class= "square_s" id=13 onmouseover="hover(3)" onmouseout="hoveroff(3)" onclick="move(3)"></div></td>
+        <td><div class= "square_s" id=14 onmouseover="hover(4)" onmouseout="hoveroff(4)" onclick="move(4)"></div></td>
+        <td><div class= "square_s" id=15 onmouseover="hover(5)" onmouseout="hoveroff(5)" onclick="move(5)"></div></td>
+        <td><div class= "square_s" id=16 onmouseover="hover(6)" onmouseout="hoveroff(6)" onclick="move(6)"></div></td>
+    </tr>
+    <tr>
+        <td><div class= "square_s" id=00 onmouseover="hover(0)" onmouseout="hoveroff(0)" onclick="move(0)"></div></td>
+        <td><div class= "square_s" id=01 onmouseover="hover(1)" onmouseout="hoveroff(1)" onclick="move(1)"></div></td>
+        <td><div class= "square_s" id=02 onmouseover="hover(2)" onmouseout="hoveroff(2)" onclick="move(2)"></div></td>
+        <td><div class= "square_s" id=03 onmouseover="hover(3)" onmouseout="hoveroff(3)" onclick="move(3)"></div></td>
+        <td><div class= "square_s" id=04 onmouseover="hover(4)" onmouseout="hoveroff(4)" onclick="move(4)"></div></td>
+        <td><div class= "square_s" id=05 onmouseover="hover(5)" onmouseout="hoveroff(5)" onclick="move(5)"></div></td>
+        <td><div class= "square_s" id=06 onmouseover="hover(6)" onmouseout="hoveroff(6)" onclick="move(6)"></div></td>
+    </tr>
+</table>
+<div class="intro">Welkom bij vier op een rij!</div><br class="intro">
+<div class="intro">Vul de naam in van speler 1:</div>
+<input class="intro" id="p1" type="text"><br class="intro">
+<div class="intro">Kies de kleur van speler 1:</div>
+<input class="intro" type="radio" id="rood1" onclick="roodradio()" checked>
+<label class="intro" for="rood">Rood</label>
+<input class="intro" type="radio" id="geel1" onclick="geelradio()">
+<label class="intro" for="geel">Geel</label><br class="intro"><br class="intro">
+
+<div class="intro">Vul de naam in van speler 2:</div>
+<input class="intro" id="p2" type="text"><br class="intro">
+<div class="intro">Kies de kleur van speler 2:</div>
+<input class="intro" type="radio" id="rood2" onclick="geelradio()">
+<label class="intro" for="rood">Rood</label>
+<input class="intro" type="radio" id="geel2" onclick="roodradio()" checked>
+<label class="intro" for="geel">Geel</label><br class="intro"><br class="intro">
+ 
+<div class="intro">Wanneer alles ingevuld is, klik dan op onderstaande knop om het spel te starten</div>
+<input class="intro" id="startbut" type="button" value="Start spel" onclick="startspel()">
+
+<br>
+<div id="beurt" class="in-game" hidden></div><br class="in-game" hidden>
+<div id="descp1" class="in-game" hidden></div><br class="in-game" hidden>
+<div id="descp2" class="in-game" hidden></div><br class="in-game" hidden>
+
+<script>
+// board hidden before start game
+var idcode_pre
+for (i = 0; i < b_w; i++){
+    for(j = 0; j < b_h; j++){
+        idcode_pre = j.toString()+i.toString()
+        document.getElementById(idcode_pre).style.display="none" 
+    }
+}
+
+</script>
+</body>
+</html>
