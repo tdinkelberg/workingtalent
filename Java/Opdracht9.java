@@ -4,12 +4,21 @@ public class Opdracht9 {
 	public static void main(String[] args) {
 		System.out.println("Hallo!");
 		System.out.println("Hier komt opdracht9:");
+	Vliegtuig vliegtuig1 = new vliegtuig;
+	Leeuw leeuw1 = new leeuw;
+	doeiets(vliegtuig1);
+	doeiets(leeuw1);
+
 	}
 }
 	
 interface Vliegend{
 	void opstijgen();
 	void landen();
+	
+	static void doeiets(Vliegend vlieg) {
+		vlieg.opstijgen();
+	}
 }
 	
 class Vliegtuig implements Vliegend{

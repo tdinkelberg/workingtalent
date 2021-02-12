@@ -6,14 +6,12 @@ public class Opdracht5 {
 		System.out.println("Hier komt opdracht5:");
 		
 		// Wat is er kapot?
-		boolean kapotmotor = true;
-		boolean kapotdeur = true;
-		boolean kapotvoorruit = true;
-		boolean kapotuitlaat = true;
-		Auto auto1 = new Auto();
-		Auto auto2 = new Auto({kapotmotor, kapotdeur, kapotvoorruit, kapotuitlaat}); // deze werkt niet????
+		boolean kapotmotor = false;
+		boolean kapotdeur = false;
+		boolean kapotvoorruit = false;
+		boolean kapotuitlaat = false;
+		Auto auto1 = new Auto(kapotmotor, kapotdeur, kapotvoorruit, kapotuitlaat);
 		Monteur.repareren(auto1);
-		Monteur.repareren(auto2);
 	}
 }
 
@@ -22,43 +20,57 @@ class Monteur {
 		int kosten = 0;
 		if (auto.motor == true) {
 			auto.motor = false;
-			System.out.println("Monteur: Die motor ziet er niet zo goed uit, die zal ik even opknappen:");
+			System.out.println("Monteur: Die motor ziet er niet zo goed uit, die zal ik even opknappen");
 			kosten = kosten +25;
+		}
+		if (auto.motor == false) {
+			System.out.println("Monteur: De motor is in prima staat");
 		}
 		if (auto.deur == true) {
 			auto.deur = false;
-			System.out.println("Monteur: Die deur ziet er niet zo goed uit, die zal ik even opknappen:");
+			System.out.println("Monteur: Die deur ziet er niet zo goed uit, die zal ik even opknappen");
 			kosten = kosten +25;			
+		}
+		if (auto.deur == false) {
+			System.out.println("Monteur: De deur is in prima staat");
 		}
 		if (auto.voorruit == true) {
 			auto.voorruit = false;
-			System.out.println("Monteur: Die voorruit ziet er niet zo goed uit, die zal ik even opknappen:");
+			System.out.println("Monteur: Die voorruit ziet er niet zo goed uit, die zal ik even opknappen");
 			kosten = kosten +25;			
+		}
+		if (auto.voorruit == false) {
+			System.out.println("Monteur: De voorruit is in prima staat");
 		}
 		if (auto.uitlaat == true) {
 			auto.uitlaat = false;
-			System.out.println("Monteur: Die uitlaat ziet er niet zo goed uit, die zal ik even opknappen:");
+			System.out.println("Monteur: Die uitlaat ziet er niet zo goed uit, die zal ik even opknappen");
 			kosten = kosten +25;			
 		}
-		System.out.println("Dat is dan €"+kosten+" alstublieft");
+		if (auto.uitlaat == false) {
+			System.out.println("Monteur: De uitlaat is in prima staat");
+		}
+		if (kosten == 0) {
+			System.out.println("Ik heb niks gedaan, dus dat was gratis!");
+		}
+		else {
+			System.out.println("Dat is dan €"+kosten+" alstublieft");
+		}
 	}
 }
 
 class Auto {
-boolean motor = true;
-boolean deur = true;
-boolean voorruit = true;
-boolean uitlaat = true;
-	Auto(){
+boolean motor;
+boolean deur;
+boolean voorruit;
+boolean uitlaat;
+	
+	Auto(boolean kapotmotor, boolean kapotdeur, boolean kapotvoorruit, boolean kapotuitlaat) {
 		System.out.println("Autootje komt de garage binnen");
-	}
-	
-	Auto(boolean kapotteonderdelen[]) {
-		motor = kapotteonderdelen[1];
-		deur = kapotteonderdelen[2];
-		voorruit = kapotteonderdelen[3];
-		uitlaat = kapotteonderdelen[4];
-	
+		motor = kapotmotor;
+		deur = kapotdeur;
+		voorruit = kapotvoorruit;
+		uitlaat = kapotuitlaat;
 	}
 }
 
